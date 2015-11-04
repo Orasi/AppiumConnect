@@ -7,5 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Matt Watson"]
   s.email       = 'Watson.Mattc@gmail.com'
   s.files       = ["lib/AppiumConnect.rb"]
+  s.homepage    = 'https://github.com/Mattwhooo/AppiumConnect'
   s.license       = 'MIT'
+  s.executables   = ["AppiumConnect"]
 end
