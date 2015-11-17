@@ -45,7 +45,7 @@ end
 
 def generate_node_config(file_name, udid, appium_port, ip, hubIp, platform)
   f = File.new(Dir.pwd + "/node_configs/#{file_name}", "w")
-  f.write( JSON.generate({ capabilities: [{ browserName: udid, maxInstances: 1, platform: platform }],
+  f.write( JSON.generate({ capabilities: [{ udid: udid, browserName: udid, maxInstances: 1, platform: platform,  deviceName: udid },{ browserName: 'chrome', maxInstances: 1,  deviceName: udid, udid: udid, seleniumProtocol: 'WebDriver', platform: platform }],
                            configuration: { cleanUpCycle: 2000, timeout: 180000, registerCycle: 5000, proxy: "org.openqa.grid.selenium.proxy.DefaultRemoteProxy", url: "http://" + ip + ":#{appium_port}/wd/hub",
                                             host: ip, port: appium_port, maxSession: 1, register: true, hubPort: 4444, hubHost: hubIp } } ) )
   f.close
@@ -116,7 +116,6 @@ if File.exist?('config.json')
       f.write(config.to_json)
     end
 
-    puts 'Whoa.... Really??? [' + ip + ']?  It\'s your funeral buddy!'
   end
 else
 
@@ -135,7 +134,6 @@ else
     f.write(config.to_json)
   end
 
-  puts 'Whoa.... Really??? [' + config + ']?  It\'s your funeral buddy!'
 end
 
 
