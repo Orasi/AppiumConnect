@@ -25,6 +25,7 @@ def appium_server_start(**options)
   command << " --selendroid-port #{options[:selendroidPort]}" if options.key?(:selendroidPort)
   command << " --log #{Dir.pwd}/output/#{options[:log]}" if options.key?(:log)
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
+  command << " --chromedriver-port #{options[:cp]}" if options.key?(:cp)
   Dir.chdir('.') {
     if Gem::Platform.local.os == 'linux'
       pid = system('x-terminal-emulator -e ' + command)
@@ -73,14 +74,15 @@ def launch_hub_and_nodes(ip, hubIp)
       port = 4000 + index
       bp = 2250 + index
       sdp = 5000 + index
+      cp = 6000 + index
       sdkv = get_device_osv(devices[index]['udid']).strip.to_i
       config_name = "#{devices[index]["udid"]}.json"
       generate_node_config config_name, devices[index]["udid"], port, ip, hubIp, 'android'
       node_config = Dir.pwd + '/node_configs/' +"#{config_name}"
       if sdkv === 16 || sdkv === 17
-        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], automationName: "selendroid", selendroidPort: sdp, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"]
+        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], automationName: "selendroid", selendroidPort: sdp, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp
       else
-        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"]
+        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp
       end
     end
   end
