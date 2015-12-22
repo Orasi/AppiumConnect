@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'appium_connect'
-  s.version     = '0.2.5'
+  s.version     = '1.0.0'
   s.date        = '2015-11-04'
   s.summary     = "Quickly Connect USB connected device to Selenium Grid"
   s.description = "Looks for USB Connected devices and registers them as Appium Nodes on Selenium Grid"
