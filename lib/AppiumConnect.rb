@@ -45,9 +45,9 @@ def appium_server_start(**options)
   }
 end
 
-def generate_node_config(file_name, udid, appium_port, ip, hubIp, platform)
+def generate_node_config(file_name, udid, appium_port, ip, hubIp, platform, browser)
   f = File.new(Dir.pwd + "/node_configs/#{file_name}", "w")
-  f.write( JSON.generate({ capabilities: [{ udid: udid, browserName: udid, maxInstances: 1, platform: platform,  deviceName: udid },{ browserName: 'chrome', maxInstances: 1,  deviceName: udid, udid: udid, seleniumProtocol: 'WebDriver', platform: platform , applicationName: udid}],
+  f.write( JSON.generate({ capabilities: [{ udid: udid, browserName: udid, maxInstances: 1, platform: platform,  deviceName: udid },{ browserName: browser, maxInstances: 1,  deviceName: udid, udid: udid, seleniumProtocol: 'WebDriver', platform: platform , applicationName: udid}],
                            configuration: { cleanUpCycle: 2000, timeout: 180000, registerCycle: 5000, proxy: "org.openqa.grid.selenium.proxy.DefaultRemoteProxy", url: "http://" + ip + ":#{appium_port}/wd/hub",
                                             host: ip, port: appium_port, maxSession: 1, register: true, hubPort: 4444, hubHost: hubIp } } ) )
   f.close
@@ -62,7 +62,7 @@ def launch_hub_and_nodes(ip, hubIp)
     ios_devices.size.times do |index|
       port = 4100 + index
       config_name = "#{ios_devices[index]["udid"]}.json"
-      generate_node_config config_name, ios_devices[index]["udid"], port, ip, hubIp, 'MAC'
+      generate_node_config config_name, ios_devices[index]["udid"], port, ip, hubIp, 'MAC', 'safari'
       node_config = Dir.pwd + '/node_configs/' +"#{config_name}"
       appium_server_start config: node_config, port: port, udid: ios_devices[index]["udid"], log: "appium-#{ios_devices[index]["udid"]}.log", tmp: ios_devices[index]["udid"]
     end
@@ -78,7 +78,7 @@ def launch_hub_and_nodes(ip, hubIp)
       cp = 6000 + index
       sdkv = get_device_osv(devices[index]['udid']).strip.to_i
       config_name = "#{devices[index]["udid"]}.json"
-      generate_node_config config_name, devices[index]["udid"], port, ip, hubIp, 'android'
+      generate_node_config config_name, devices[index]["udid"], port, ip, hubIp, 'android', 'chrome'
       node_config = Dir.pwd + '/node_configs/' +"#{config_name}"
       if sdkv === 16 || sdkv === 17
         appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], automationName: "selendroid", selendroidPort: sdp, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp
