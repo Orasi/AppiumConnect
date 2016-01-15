@@ -33,6 +33,7 @@ end
 
 def launch_hub_and_nodes(ip, hubIp, nodeDir)
 
+
   if Gem::Platform.local.os == 'darwin'
 
     ios_devices = JSON.parse(get_ios_devices)
@@ -41,7 +42,7 @@ def launch_hub_and_nodes(ip, hubIp, nodeDir)
       port = 4100 + index
       config_name = "#{ios_devices[index]["udid"]}.json"
       generate_node_config nodeDir, config_name, ios_devices[index]["udid"], port, ip, hubIp, 'MAC', 'safari'
-      node_config = nodeDir + 'node_configs/' +"#{config_name}"
+      node_config = nodeDir + '/node_configs/' +"#{config_name}"
       appium_server_start config: node_config, port: port, udid: ios_devices[index]["udid"], log: "appium-#{ios_devices[index]["udid"]}.log", tmp: ios_devices[index]["udid"]
     end
 
@@ -57,7 +58,7 @@ def launch_hub_and_nodes(ip, hubIp, nodeDir)
       sdkv = get_device_osv(devices[index]['udid']).strip.to_i
       config_name = "#{devices[index]["udid"]}.json"
       generate_node_config nodeDir, config_name, devices[index]["udid"], port, ip, hubIp, 'android', 'chrome'
-      node_config = nodeDir + 'node_configs/' +"#{config_name}"
+      node_config = nodeDir + '/node_configs/' +"#{config_name}"
       if sdkv === 16 || sdkv === 17
         appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], automationName: "selendroid", selendroidPort: sdp, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp
       else

@@ -15,7 +15,7 @@ if platform == :linux
 elsif platform == :mac
   nodeConfigDir = File.expand_path('~/AppiumConnect/')
 elsif platform == :windows
-  nodeConfigDir = File.expand_path('~/AppiumConnect/')
+  nodeConfigDir = Dir.home() + '/AppiumConnect'
 end
 
 create_dir nodeConfigDir
@@ -57,7 +57,6 @@ else
   puts ''
   puts ''
   puts 'Please Enter IP address of Node:'
-
   ip = gets.chomp()
 
   config = {hubIp: hubIp, nodeIp: ip}
@@ -69,4 +68,4 @@ else
 end
 
 
-launch_hub_and_nodes(config['nodeIp'], config['hubIp'], nodeConfigDir)
+launch_hub_and_nodes config[:nodeIp], config[:hubIp], nodeConfigDir
