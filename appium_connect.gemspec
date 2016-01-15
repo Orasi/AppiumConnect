@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'appium_connect'
-  s.version     = '1.0.3'
+  s.version     = '1.0.4'
   s.date        = '2015-11-04'
   s.add_runtime_dependency 'parallel' '[>= 1.6.1]'
   s.summary     = "Quickly Connect USB connected device to Selenium Grid"

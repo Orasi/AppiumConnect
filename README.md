@@ -17,7 +17,7 @@ For Android devices this will use ADB to detect any devices currently connected 
 
 iOS devices can be detected on Mac by parsing through all connected usb devices.  For testing native apps this is sufficent to get a node registered to Selenium Grid, but testing Mobile Safari will require additional steps such as starting the proxy.
 
-
+Config files will be saved to the users home directory in an AppiumConnect folder.  This will also archive all node config files created as well as output logs from Appium.
 ***********************************************************
 
 
