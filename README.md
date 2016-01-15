@@ -1,5 +1,7 @@
 # AppiumConnect
-Simple Ruby Gem to dynamically create Appium Node Config files for any mobile device connected via USB.
+AppiumConnect simplifies the proccess of creating connecting mobile devices to SeleniumGrid through Appium.  AppiumConnect
+will scan connected usb devices for Android or iOS phones and tablets and automatically create the necessary node configs
+to register with the grid.
 
 #Install
 AppiumConnect is available to install from RubyGems.
