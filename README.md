@@ -5,11 +5,11 @@ Simple Ruby Gem to dynamically create Appium Node Config files for any mobile de
 AppiumConnect is available to install from RubyGems.
 ```ruby
 gem install appium_connect
-'''
+```
 This will add an executable that can be run from command line
-'''
+```
 AppiumConnect
-'''
+```
 
 For Android devices this will use ADB to detect any devices currently connected and create a seperate AppiumNode for each one. When Appium Connect first starts it will ask for the IP address to use for the hub, and the node.  Once these are provided they will be remembered (saved in config.json) and it can automatically connect.
 ***********************************************************
