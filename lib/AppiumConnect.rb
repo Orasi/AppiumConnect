@@ -1,3 +1,5 @@
+#Copyright © 2016 Orasi Software, Inc., All rights reserved.
+
 require 'parallel'
 require 'json'
 require 'fileutils'
