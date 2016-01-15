@@ -12,6 +12,10 @@ AppiumConnect
 ```
 
 For Android devices this will use ADB to detect any devices currently connected and create a seperate AppiumNode for each one. When Appium Connect first starts it will ask for the IP address to use for the hub, and the node.  Once these are provided they will be remembered (saved in config.json) and it can automatically connect.
+
+iOS devices can be detected on Mac by parsing through all connected usb devices.  For testing native apps this is sufficent to get a node registered to Selenium Grid, but testing Mobile Safari will require additional steps such as starting the proxy.
+
+
 ***********************************************************
 
 
