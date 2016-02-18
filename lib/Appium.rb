@@ -7,6 +7,7 @@ def appium_server_start(**options)
   command << " --udid #{options[:udid]}" if options.key?(:udid)
   command << " --automation-name #{options[:automationName]}" if options.key?(:automationName)
   command << " --selendroid-port #{options[:selendroidPort]}" if options.key?(:selendroidPort)
+  command << " --webkit-debug-proxy-port #{options[:webkitPort]}" if options.key?(:webkitPort)
   command << " --log #{Dir.pwd}/output/#{options[:log]}" if options.key?(:log)
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
   command << " --chromedriver-port #{options[:cp]}" if options.key?(:cp)
@@ -16,6 +17,7 @@ def appium_server_start(**options)
       pid = system('x-terminal-emulator -e ' + command)
     elsif Gem::Platform.local.os == 'darwin'
       `osascript -e 'tell app "Terminal" to do script "#{command}"'`
+      `osascript -e 'tell app "Terminal" to do script "ios_webkit_debug_proxy -c #{options[:udid]}:#{options[:webkitPort]} -d"'`
     else
       pid = system('start ' + command)
     end
@@ -40,10 +42,11 @@ def launch_hub_and_nodes(ip, hubIp, nodeDir)
 
     ios_devices.size.times do |index|
       port = 4100 + index
+      webkitPort = 27753 + index
       config_name = "#{ios_devices[index]["udid"]}.json"
       generate_node_config nodeDir, config_name, ios_devices[index]["udid"], port, ip, hubIp, 'MAC', 'safari'
       node_config = nodeDir + '/node_configs/' +"#{config_name}"
-      appium_server_start config: node_config, port: port, udid: ios_devices[index]["udid"], log: "appium-#{ios_devices[index]["udid"]}.log", tmp: ios_devices[index]["udid"]
+      appium_server_start config: node_config, port: port, udid: ios_devices[index]["udid"], log: "appium-#{ios_devices[index]["udid"]}.log", tmp: ios_devices[index]["udid"], webkitPort: webkitPort
     end
 
   else

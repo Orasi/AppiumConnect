@@ -68,4 +68,4 @@ else
 end
 
 
-launch_hub_and_nodes config[:nodeIp], config[:hubIp], nodeConfigDir
+launch_hub_and_nodes config['nodeIp'], config['hubIp'], nodeConfigDir
