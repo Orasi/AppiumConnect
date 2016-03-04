@@ -6,3 +6,11 @@ def get_device_osv udid
   command = "adb  -s #{udid} shell getprop ro.build.version.sdk"
   `#{command}`
 end
+
+def restart_devices
+  devices = JSON.parse(get_android_devices)
+
+  devices.each do |device|
+    `adb -s #{device['udid']} reboot`
+  end
+end
