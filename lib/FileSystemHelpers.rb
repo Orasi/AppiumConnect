@@ -17,7 +17,9 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platf
                                             browserName: udid,
                                             maxInstances: 1,
                                             platform: platform,
-                                            deviceName: udid },
+                                            deviceName: udid,
+                                            applicationName: udid
+                                          },
 
                                           { browserName: browser,
                                             maxInstances: 1,
