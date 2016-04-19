@@ -31,6 +31,7 @@ def appium_server_start(**options)
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
   command << " --chromedriver-port #{options[:cp]}" if options.key?(:cp)
   command << " --command-timeout 180"
+  puts command
   Dir.chdir('.') {
     if Gem::Platform.local.os == 'linux'
       pid = system('x-terminal-emulator -e ' + command)
