@@ -1,4 +1,16 @@
 
+platform = get_platform()
+if platform == :windows
+  require 'Win32API'
+end
+
+def shortname long_name
+  max_path = 1024
+  short_name = " " * max_path
+  lfn_size = Win32API.new("kernel32", "GetShortPathName", ['P','P','L'],'L').call(long_name, short_name, max_path)
+  return short_name[0..lfn_size-1]
+end
+
 def appium_server_start(**options)
   command = 'appium'
   command << " --nodeconfig #{options[:config]}" if options.key?(:config)
@@ -8,7 +20,14 @@ def appium_server_start(**options)
   command << " --automation-name #{options[:automationName]}" if options.key?(:automationName)
   command << " --selendroid-port #{options[:selendroidPort]}" if options.key?(:selendroidPort)
   command << " --webkit-debug-proxy-port #{options[:webkitPort]}" if options.key?(:webkitPort)
-  command << " --log #{Dir.pwd}/output/#{options[:log]}" if options.key?(:log)
+
+  platform = get_platform()
+  if platform == :windows
+    command << " --log #{shortname(Dir.pwd)}/output/#{options[:log]}" if options.key?(:log)
+  else
+    command << " --log #{Dir.pwd}/output/#{options[:log]}" if options.key?(:log)
+  end
+
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
   command << " --chromedriver-port #{options[:cp]}" if options.key?(:cp)
   command << " --command-timeout 180"
