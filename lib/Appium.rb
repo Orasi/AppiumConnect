@@ -23,9 +23,9 @@ def appium_server_start(**options)
 
   platform = get_platform()
   if platform == :windows
-    command << " --log #{shortname(Dir.pwd)}/output/#{options[:log]}" if options.key?(:log)
+    command << " --log #{options[:config_dir]}/output/#{options[:log]}" if options.key?(:log)
   else
-    command << " --log #{Dir.pwd}/output/#{options[:log]}" if options.key?(:log)
+    command << " --log #{options[:config_dir]}/output/#{options[:log]}" if options.key?(:log)
   end
 
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
@@ -34,7 +34,7 @@ def appium_server_start(**options)
   puts command
   Dir.chdir('.') {
     if Gem::Platform.local.os == 'linux'
-      pid = system('x-terminal-emulator -e ' + command)
+      pid = system('x-terminal-emulator -e ' + command + '&')
     elsif Gem::Platform.local.os == 'darwin'
       `osascript -e 'tell app "Terminal" to do script "#{command}"'`
       `osascript -e 'tell app "Terminal" to do script "ios_webkit_debug_proxy -c #{options[:udid]}:#{options[:webkitPort]} -d"'`
@@ -66,7 +66,7 @@ def launch_hub_and_nodes(ip, hubIp, nodeDir)
       config_name = "#{ios_devices[index]["udid"]}.json"
       generate_node_config nodeDir, config_name, ios_devices[index]["udid"], port, ip, hubIp, 'MAC', 'safari'
       node_config = nodeDir + '/node_configs/' +"#{config_name}"
-      appium_server_start config: node_config, port: port, udid: ios_devices[index]["udid"], log: "appium-#{ios_devices[index]["udid"]}.log", tmp: ios_devices[index]["udid"], webkitPort: webkitPort
+      appium_server_start config: node_config, port: port, udid: ios_devices[index]["udid"], log: "appium-#{ios_devices[index]["udid"]}.log", tmp: ios_devices[index]["udid"], webkitPort: webkitPort, config_dir: nodeDir
     end
 
   else
@@ -83,9 +83,9 @@ def launch_hub_and_nodes(ip, hubIp, nodeDir)
       generate_node_config nodeDir, config_name, devices[index]["udid"], port, ip, hubIp, 'android', 'chrome'
       node_config = nodeDir + '/node_configs/' +"#{config_name}"
       if sdkv === 16 || sdkv === 17
-        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], automationName: "selendroid", selendroidPort: sdp, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp
+        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], automationName: "selendroid", selendroidPort: sdp, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp, config_dir: nodeDir
       else
-        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp
+        appium_server_start config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp, config_dir: nodeDir
       end
     end
   end
